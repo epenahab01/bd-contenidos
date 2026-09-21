@@ -285,6 +285,9 @@ Un SGBD no siempre es la respuesta. Dos costes a considerar: **complejidad opera
 Si respondes a todas sin mirar arriba, el tema está dominado:
 
 1. ¿Cuál es la diferencia entre *base de datos*, *SGBD* y *sistema de base de datos*?
+
+Una base de datos es una colección de datos relacionados, mientras que SGBD es el software que gestiona la base de datos. El sistema de base de datos está compuesto por el SGBD y la base de datos, y en ocasiones también por las aplicaciones que la utilizan. 
+
 2. ¿Cuáles son las tres partes de un modelo de datos?
 3. ¿Por qué limitar las operaciones de un modelo de datos es una fortaleza y no una debilidad?
 4. ¿Qué diferencia hay entre modelo conceptual, lógico y físico? ¿Cuál es independiente del SGBD?
