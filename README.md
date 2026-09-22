@@ -343,7 +343,7 @@ git push
 
 # --- Cuando avisemos de que hay contenidos nuevos ---
 git fetch upstream
-git merge upstream/main
+git merge upstream/main #Para salir de vim y que se guarde lo que hemos hecho, :x
 git push
 
 # --- Para orientarte ---
