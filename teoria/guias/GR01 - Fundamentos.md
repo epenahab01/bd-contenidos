@@ -300,26 +300,26 @@ Porque de esa forma el programador puede expresar las operaciones a alto nivel y
 4. ¿Qué diferencia hay entre modelo conceptual, lógico y físico? ¿Cuál es independiente del SGBD?
 
 Son las diferentes capas de abstracción. La más alta, el modelo conceptual, es el esquema que sigue el modelo de datos y es lo más cercano a la percepción humana.
-El siguiente es el modelo lógico, que consiste en la implementación de ese esquema y es independiente del SGBD. 
+El siguiente es el modelo lógico, que elabora una estructura concreta a partir del esquema según un modelo de datos y es independiente del SGBD. 
 En último lugar, el más bajo, está el modelo físico, que describe cómo se almacenan los datos.
 
 5. ¿Qué es el esquema y qué es el estado de una BD? ¿Cuál cambia más a menudo?
 
-El esquema es la base de la que parte una BD, es decir, la idea general de cómo se va a implementar ésta. No suele cambiar mucho.
-El estado de una BD es el conjunto de datos que existen en una BD en un momento determinado. Cuando cambiamos algún dato, el estado de la BD ha cambiado.
+El esquema es la definición o estructura de una BD, incluyendo sus tipos de datos y restricciones. No suele cambiar mucho.
+El estado de una BD es el conjunto de datos que existen en una BD en un momento determinado. Cada vez que se insertan, modifican o eliminan datos, el estado de la BD cambia.
 
 6. Enumera los tres niveles de la arquitectura de un SGBD y explica los dos tipos de independencia de datos.
 
 Los tres niveles de la arquitectura son el externo, el conceptual y el interno. El nivel externo, destinado a los usuarios, está formado por la vista del usuario de la BD.
 En el nivel conceptual, destinado a los diseñadores, se encuentra la estructura de la base de datos al completo con las restricciones pertinentes.
-En el nivel interno, destinado a la optimización y al rendimiento, se encuentran el almacenamiento físico de la BD.
+En el nivel interno, destinado a la optimización y al rendimiento, se encuentra el almacenamiento físico de la BD.
 
 Tipos de independencia de datos: independencia de datos lógica y física.
 La independencia de datos lógica consiste en que un cambio en el esquema conceptual no cambia las vistas de los usuarios, mientras que la independencia de datos física consiste en que un cambio en el esquema interno de la BD no cambia el esquema conceptual. 
 
 7. ¿Qué son los metadatos y por qué decimos que un SGBD es "autodescriptivo"?
 
-Los metadatos son información de la BD acerca de su definición y estructura, tipos de datos y restricciones; se encuentra en el catálogo o diccionario de la BD. En consecuencia de estos datos, podemos decir que un SGBD es autodescriptivo porque el mismo SGBD sirve para bases de datos distintas y porque existe independencia entre las aplicaciones y los datos, es decir, que se puede cambiar la BD sin tener que reescribir la aplicación.
+Los metadatos son información de la BD acerca de su definición y estructura, tipos de datos y restricciones; se encuentra en el catálogo o diccionario de la BD. En consecuencia, podemos decir que un SGBD es autodescriptivo porque el mismo SGBD sirve para bases de datos distintas y porque existe independencia entre las aplicaciones y los datos, es decir, que los cambios en la definición de los datos no obligan a modificar las aplicaciones.
 
 8. Explica cada letra de ACID con un ejemplo bancario.
 
@@ -335,10 +335,10 @@ Un ejemplo podría ser que se fuera la luz en mitad de una compra de una entrada
 
 9. ¿En qué se diferencia SQLite de PostgreSQL según las cuatro dimensiones de clasificación?
 
-SQLite se diferencia de PostgreSQL en que el modelo de datos no es objeto-relacional, es sólo relacional; en que es de usuario único y centralizado, y la diferencia más importante, en que es una biblioteca embebida y no se interactúa con un servidor.
+SQLite se diferencia de PostgreSQL en que el modelo de datos no es objeto-relacional, es sólo relacional; en que es de usuario único y centralizado, mientras que PostgreSQL puede ser centralizado o distribuido. La diferencia más importante es que SQLite funciona como una biblioteca embebida y no se interactúa con un servidor.
 
 10. Da dos escenarios donde NO usarías un SGBD y justifica por qué.
 
 No usaría un SGBD para proyectos simples en los que no haya una gran cantidad de datos que mantener, en cuyo caso no sería rentable añadir la complejidad que supone trabajar con un SGBD cuando existen alternativas más sencillas y ligeras como ficheros, etc.
 
-Otro escenario en el que no usaría un SGBD sería para aplicaciones en las que cada microsegundo es importante, de manera que perderíamos demasiado tiempo con la BD y sería contraproducente.
+Otro escenario en el que no usaría un SGBD sería para aplicaciones con requisitos de rendimiento extremo, donde la sobrecarga introducida por el SGBD pueda ser contraproducente.

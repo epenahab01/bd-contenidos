@@ -29,7 +29,7 @@ date: 2025-09-01
 
 ## 1.1. Relación como Producto Cartesiano
 
-En teoría de conjuntos, una **relación** es un subconjunto del producto cartesiano de uno o más conjuntos (dominios). 
+En teoría de conjuntos, una **relación**, que no una tabla, es un subconjunto del producto cartesiano de uno o más conjuntos (dominios). 
 
 >[!info] Relación
 >Una relación de un conjunto $A$ a un conjunto $B$ es un subconjunto $A \times B$. Por lo tanto, una relación $R$ consiste en pares ordenados $(a,b)$, donde $a \in A$ y $b \in B$. Si $(a,b) \in R$, decimos que *están relacionados*, y también se escribe $a R b$.
@@ -79,7 +79,7 @@ ESTUDIANTE = {
 Esta formalización matemática es lo que hace que el modelo relacional sea tan sólido y permita operaciones algebraicas precisas como las del álgebra relacional.
 
 >[!tip] Notación matemática en ficheros markdown
-> Los editores de makrdown pueden usar diferentes bibliotecas para procesar notación matemática y producir una visualización correcta de expresiones matemáticas.
+> Los editores de markdown pueden usar diferentes bibliotecas para procesar notación matemática y producir una visualización correcta de expresiones matemáticas.
 > Una opción común es usar [MathJax](https://www.mathjax.org/), que es una biblioteca de JavaScript multinavegador que muestra notación matemática en navegadores web, utilizando marcado MathML, LaTeX y ASCIIMathML.
 > Consulta esta referencia rápida [MathJax quick reference](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference) si quieres escribir expresiones matemáticas en documentos markdown.
 
@@ -487,7 +487,7 @@ CREATE TABLE EMPLEADO (
 		- La eliminación de cualquier atributo de $K$ da como resultado un conjunto de atributos que deja de ser superclave (no posee la propiedad de unicidad de la superclave)
 
 - Ejemplo: Considere el esquema de relación $COCHE$:
-	- $COCHE (estado, matricula, numSerie, narca, nodelo, año)$
+	- $COCHE (estado, matricula, numSerie, marca, modelo, año)$
 	- La relación $COCHE$ tiene dos claves:
 		- $Clave1 = {estado, matricula}$
 		- $Clave2 = {numSerie}$
