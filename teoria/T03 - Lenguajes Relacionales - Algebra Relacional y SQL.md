@@ -287,8 +287,11 @@ FROM Empleado;
 
 >[!exercise]+ Ejercicio
 > 1. Crea una expresión en álgebra relacional para obtener el nombre de los empleados del departamento 4 que cobre más de 25000 y los del departamento 5 que cobren más de 30000. 
+> pi Nombre (sigma Sueldo>25000 and Dno = 4 (Empleado)) union pi Nombre (sigma Sueldo > 30000 and Dno = 5 (Empleado))
 > 2. Divide la expresión anterior en dos pasos usando resultados intermedios
-> 
+> Dno4Sueldo25K <- pi Nombre (sigma Sueldo>25000 and Dno = 4 (Empleado))
+> Dno5Sueldo30K <- pi Nombre (sigma Sueldo > 30000 and Dno = 5 (Empleado))
+> Resultado <- Dno4Sueldo25K union Dno5Sueldo30K
 > Recuerda usar la  [cálculadora con esquema y estado de EMPRESA](https://dbis-uibk.github.io/relax/calc/gist/5e3b094713c94df48e314477b0b1945b)
 
 ### 2.3. Renombrado (RENAME)
@@ -299,8 +302,8 @@ El operador renombrado se denota por $\rho$ (rho).
 
 | Caso                             | Sintaxis libro                | Sintaxis RelAx               |
 | -------------------------------- | ----------------------------- | ---------------------------- |
-| Cambiar el nombre de la relación | $\rho_S (R)$                    | rho S (R)                    |
-| Cambiar nombre de atributos      | $\rho_{b1,b2, \dots, bn} (R)$     | rho b1 \<- a1, b2 \<- a2 (R) |
+| Cambiar el nombre de la relación | $\rho_S (R)$                  | rho S (R)                    |
+| Cambiar nombre de atributos      | $\rho_{b1,b2, \dots, bn} (R)$ | rho b1 \<- a1, b2 \<- a2 (R) |
 
 >[!example] Ejemplo en RelAx
 > ```
@@ -376,7 +379,7 @@ Por convención, la relación resultante para $R_1 \cup R_2$ (también para $R_1
 #### Diferencia
 
 - Operación **binaria**, denotada por -
-- El resultado de la operación $R - S$, es una relación que incluye todas las tuplas que están  en $R$ pero no en $S$.
+- El resultado de la operación $R - S$, es una relación que incluye todas las tuplas que están en $R$ pero no en $S$.
 	- Los nombres de los atributos en el resultado serán los mismos que los nombres de los atributos en R
 - Las dos **relaciones** operandos R y S deben ser **compatibles**
 
@@ -732,7 +735,7 @@ La operación de FULL OUTER JOIN mantiene todas las tuplas en ambas relaciones e
 - Si no se encuentra ninguna tupla coincidente en $R$ o en $S$, entonces los atributos de $R$ o de $S$ en el resultado de la concatenación se rellenan con valores nulos.
 
 >[!error] BD Empresa no tiene datos suficientes
-> La BD Enpresa no tiene datos para poder mostrar un ejemplo de este tipo.
+> La BD Empresa no tiene datos para poder mostrar un ejemplo de este tipo.
 
 #### Representación en SQL
 
