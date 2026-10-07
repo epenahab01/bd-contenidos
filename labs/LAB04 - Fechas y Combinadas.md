@@ -23,7 +23,11 @@ Escribe una consulta que devuelva el sueldo medio por departamento para departam
 
 Solución:
 ```sql
-
+select dpto,
+	avg(sueldo) as sueldo_medio
+from empleado
+group by dpto
+having count(*) > 1;
 ```
 
 Resultado:
@@ -210,7 +214,7 @@ Puedes consultar la [lista completa de modificadores](https://www.sqlite.org/lan
 ## Otros modificadores de fechas y horas
 
 ```sql
--- Devuelve el úlitmo día del mes a partir de la fecha dada
+-- Devuelve el último día del mes a partir de la fecha dada
 
 SELECT date('2024-02-01','start of month','+1 month','-1 day') as last_day;
 ```
@@ -242,7 +246,12 @@ Escribe una consulta para obtener el nombre, apellido1 y fechaNac de los emplead
 
 Solución:
 ```sql
-
+select 
+	nombre,
+	apellido1,
+	fechaNac
+from empleado
+where date(fechaNac) between date('1955-01-01') and date('1965-12-31');
 ```
 
 Tabla resultado:
