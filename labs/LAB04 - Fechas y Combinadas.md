@@ -511,7 +511,7 @@ Tabla resultado:
 | 987987987 |
 | 999887777 |
 
-- La primera consulta devuelve los`dni` de los directores de la tabla `DEPARTAMENTO`
+- La segunda consulta devuelve los`dni` de los directores de la tabla `DEPARTAMENTO`
 
 | dni       |
 | --------- |
@@ -528,7 +528,20 @@ Escribe una consulta que devuelva los empleados con más de un familiar que no s
 
 Solución:
 ```sql
+select dni as empleado
+from empleado
 
+except
+
+select supervisor
+from empleado
+
+intersect
+
+select empleado
+from familiar
+group by empleado
+having count(*) > 1;
 ```
 
 Tabla resultado:
@@ -779,7 +792,21 @@ Escribe una consulta que devuelva los proyectos del departamento con mayor núme
 
 Solución:
 ```sql
-
+with dpto_mas_personal as (
+  	select 
+  		dpto,
+  		count(*) as num_empleados
+	from empleado
+	group by dpto
+  	order by num_empleados desc
+  	limit 1
+)
+select
+	nombre,
+	ubicacion,
+	p.dpto as dpto
+from dpto_mas_personal dp, proyecto p
+where dp.dpto = p.dpto;
 ```
 
 Tabla resultado:

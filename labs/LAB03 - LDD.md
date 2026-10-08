@@ -27,7 +27,10 @@ Escribe una consulta que utilice un filtro para calcular simultáneamente el nú
 
 Solución:
 ```sql
-
+select
+	round(avg(reproducciones) filter (where reproducciones > 100000000), 2) as media_exitos,
+	round(avg(reproducciones) filter (where reproducciones < 1000000), 2) as media_minoritarias
+from cancion;
 ```
 
 Resultado:
@@ -189,7 +192,26 @@ $FAMILIAR$(empleado, nombre, sexo, fechaNac, relación\*)
 
 Solución:
 ```sql
+CREATE TABLE FAMILIAR (
+	empleado TEXT NOT NULL,
+	nombre TEXT NOT NULL,
+  	sexo TEXT NOT NULL,
+  	fechaNac TEXT NOT NULL,
+  	relacion TEXT NOT NULL
+);
 
+INSERT INTO FAMILIAR (empleado, nombre, sexo, fechaNac, relacion) VALUES
+('333445555', 'Alicia', 'F', '1986-04-06', 'Hija'),
+('333445555', 'Teodoro', 'M', '1983-10-25', 'Hijo'),
+('333445555', 'Luisa', 'F', '1958-05-03', 'Esposa'),
+('987654321', 'Alfonso', 'M', '1942-02-28', 'Esposo'),
+('123456789', 'Miguel', 'M', '1988-01-04', 'Hijo'),
+('123456789', 'Alice', 'F', '1988-12-30', 'Hija'),
+('123456789', 'Elisa', 'F', '1967-05-05', 'Esposa');
+
+select * 
+from familiar
+where sexo = 'M';
 ```
 
 Tabla resultado:
@@ -247,7 +269,20 @@ Reescribe la definición de la tabla de `FAMILIAR` para agregar las siguientes r
 
 Solución
 ```sql
+drop table if exists FAMILIAR;
 
+CREATE TABLE FAMILIAR (
+	empleado TEXT NOT NULL,
+	nombre TEXT NOT NULL,
+  	sexo TEXT NOT NULL CHECK (sexo in ('M', 'F', 'O')),
+  	fechaNac TEXT NOT NULL,
+  	relacion TEXT CHECK (relacion in ('Hijo', 'Hija', 'Conyuge', 'Hermano', 'Hermana'))
+) STRICT;
+
+SELECT
+	Lower(tbl_name) as name,
+	Lower(REPLACE(REPLACE(REPLACE(REPLACE(sql, ' ', ''), CHAR(9), ''), CHAR(10), ''), CHAR(13), '')) as sql
+from sqlite_schema where type = 'table' and Lower(name) = 'familiar';
 ```
 
 Para verificar tu respuesta, selecciona su definición de la tabla sqlite_schema mediante la siguiente consulta:
@@ -433,7 +468,25 @@ En caso de ser una sola columna, crea una restricción a nivel de columna.
 
 Solución:
 ```sql
+drop table if exists empleado;
 
+CREATE TABLE EMPLEADO (	
+	nombre TEXT NOT NULL,
+	apellido1 TEXT NOT NULL,
+	apellido2 TEXT,
+	dni TEXT PRIMARY KEY NOT NULL,
+	fechaNac TEXT NOT NULL,
+	direccion TEXT,
+	sexo TEXT NOT NULL,
+	sueldo REAL NOT NULL,
+	supervisor TEXT,
+	dpto INTEGER NOT NULL
+) STRICT;
+
+SELECT 
+    Lower(tbl_name) as name, 
+    Lower(REPLACE(REPLACE(REPLACE(REPLACE(sql, ' ', ''), CHAR(9), ''), CHAR(10), ''), CHAR(13), '')) as sql
+from sqlite_schema where type='table' and Lower(name)='empleado';
 ```
 
 Para verificar tu respuesta, selecciona su definición de la tabla sqlite_schema mediante la siguiente consulta:
@@ -704,7 +757,22 @@ Reescribe la definición de la tabla de `FAMILIAR` para agregar su clave primari
 
 Solución
 ```sql
+drop table if exists FAMILIAR;
 
+CREATE TABLE FAMILIAR (
+	empleado TEXT NOT NULL,
+	nombre TEXT NOT NULL,
+  	sexo TEXT NOT NULL CHECK (sexo in ('M', 'F', 'O')),
+  	fechaNac TEXT NOT NULL,
+  	relacion TEXT CHECK (relacion in ('Hijo', 'Hija', 'Conyuge', 'Hermano', 'Hermana')),
+  	PRIMARY KEY(empleado, nombre),
+  	FOREIGN KEY(empleado) REFERENCES EMPLEADO(dni) ON UPDATE CASCADE ON DELETE CASCADE
+) STRICT;
+
+SELECT 
+    Lower(tbl_name) as name, 
+    Lower(REPLACE(REPLACE(REPLACE(REPLACE(sql, ' ', ''), CHAR(9), ''), CHAR(10), ''), CHAR(13), '')) as sql
+from sqlite_schema where type='table' and Lower(name)='familiar';
 ```
 
 Para verificar tu respuesta, selecciona su definición de la tabla sqlite_schema mediante la siguiente consulta:
@@ -858,7 +926,20 @@ Elimina la columna `valoracion` de la tabla `UBICACION`  (anteriormente, `LOCALI
 
 Solución:
 ```sql
+CREATE TABLE IF NOT EXISTS LOCALIZACIONES_DPTO (
+    dpto INTEGER NOT NULL,
+    ubicacion TEXT NOT NULL,
+  	valoracion INTEGER NOT NULL CHECK (valoracion > -1 and valoracion <6),
+    PRIMARY KEY (dpto, ubicacion) -- PRIMARY KEY implica NOT NULL
+) STRICT;
 
+alter table localizaciones_dpto rename to ubicacion;
+alter table ubicacion drop column valoracion;
+
+SELECT 
+    Lower(tbl_name) as name, 
+    Lower(REPLACE(REPLACE(REPLACE(REPLACE(sql, ' ', ''), CHAR(9), ''), CHAR(10), ''), CHAR(13), '')) as sql
+from sqlite_schema where type='table' and Lower(name)='ubicacion';
 ```
 
 Para verificar tu respuesta, selecciona su definición de la tabla sqlite_schema mediante la siguiente consulta:
