@@ -146,7 +146,7 @@ Tabla resultado:
 | Ventas         | 453453453 | 2024-08-15 | 14:00:00   |
 
 - La función `date` devuelve la fecha de un valor que almacena fecha y hora (`datetime`).
-- La función `time` devuelve la hora de un  que almacena fecha y hora (`datetime`).
+- La función `time` devuelve la hora de un que almacena fecha y hora (`datetime`).
 
 ---
 

@@ -21,7 +21,12 @@ Escribe una consulta para obtener el nombre del departamento, su director, su fe
 
 Solución:
 ```sql
-
+select
+	nombre,
+	director,
+	fechaIngresoDirector as fecha.
+	max(strftime('%m', fechaIngresoDirector)) as mes
+from departamento
 ```
 
 Tabla resultado:
@@ -42,7 +47,10 @@ Para realizar esta combinación existen distintas **variantes del JOIN en SQL** 
 
 ![join types](https://red9.com/wp-content/uploads/2025/05/sql-joins-visualized-venn-diagram-red9.png)
 
+Antijoin: left/right join excluding inner join, full outer join excluding inner join.
 En estos ejemplos solo se muestra gráficamente la concatenación de dos tablas, pero todas las distintas concatenaciones que vamos a ver son igualmente aplicables a la concatenación de 3 o más tablas.
+
+Lo más importante es saber qué relaciones combinar para construir la tabla que necesitamos para nuestra consulta, es decir, el FROM.
 
 ---
 
@@ -170,7 +178,12 @@ Tabla resultado:
 Escribe una consulta que devuelva el nombre de cada proyecto (nombre_proyecto) y el total de horas trabajadas en cada uno (total_horas_dedicadas), ordena los resultados por las horas trabajabas empezando por el de mayor horas. 
 
 ```sql
-
+select
+	P.nombre as nombre_proyecto,
+	sum(T.horas) as total_horas_dedicadas
+from Proyecto P INNER JOIN Trabaja_en T ON P.numero = T.proyecto
+group by nombre_proyecto
+order by total_horas_dedicadas desc;
 ```
 
 Tabla resultado:
@@ -260,7 +273,15 @@ Escribe una consulta que devuelva el nombre (nombre_empleado) y apellido1 de emp
 Solución:
 
 ```sql
-
+select
+	E.nombre as nombre_empleado,
+	E.apellido1,
+	P.nombre as nombre_proyecto,
+	p.ubicacion
+from PROYECTO P
+	INNER JOIN TRABAJA_EN T ON (P.numero = T.proyecto)
+	INNER JOIN EMPLEADO E ON (E.dni = T.empleado)
+order by nombre_empleado;
 ```
 
 Tabla resultado:
@@ -320,7 +341,13 @@ Tabla resultado:
 Escribe una consulta que devuelva los empleados que ganan entre 2000 y 10000 euros menos que su supervisor directo. Las columnas resultado deben ser: nombre_empleado, sueldo_empleado, nombre_supervisor y sueldo_supervisor.
 
 ```sql
-
+select
+	E.nombre as nombre_empleado,
+	E.sueldo as sueldo_empleado,
+	S.nombre as nombre_supervisor,
+	S.sueldo as sueldo_supervisor
+from EMPLEADO E INNER JOIN EMPLEADO S ON (E.supervisor = S.dni)
+where sueldo_supervisor - sueldo_empleado between 2000 and 10000;
 ```
 
 Tabla resultado:
