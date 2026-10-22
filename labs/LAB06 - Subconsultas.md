@@ -304,7 +304,14 @@ Escribe una consulta que liste el nombre y apellido de los empleados que trabaja
 
 Solución:
 ```sql
-
+SELECT DISTINCT E.nombre,
+	E.apellido1
+FROM EMPLEADO E INNER JOIN (SELECT T.empleado
+	FROM TRABAJA_EN T INNER JOIN
+	PROYECTO P ON T.proyecto = P.numero
+	WHERE P.ubicacion = 'Madrid'
+	)AS T ON E.dni = T.empleado
+ORDER BY E.apellido1 asc, E.nombre asc;
 ```
 
 Tabla resultado:
@@ -444,7 +451,14 @@ Escribe una consulta que liste el el nombre y apellido de cada empleado junto co
 
 Solución:
 ```sql
-
+SELECT nombre,
+	apellido1,
+	sueldo - (SELECT AVG(E2.sueldo)
+			 FROM EMPLEADO E2 INNER JOIN DEPARTAMENTO D ON E2.dpto = D.numero 
+			 AND E1.dpto = E2.dpto
+			 ) AS diferenciaSueldoMedio
+FROM EMPLEADO E1
+ORDER BY diferenciaSueldoMedio desc;
 ```
 
 Tabla resultado:
@@ -531,7 +545,17 @@ Escribe una consulta que liste el nombre de los proyectos donde trabaja al menos
 
 Solución:
 ```sql
-
+SELECT nombre
+FROM PROYECTO P
+WHERE EXISTS (
+  	SELECT E.nombre
+  	FROM DEPARTAMENTO D INNER JOIN EMPLEADO E ON D.numero = E.dpto
+  	INNER JOIN TRABAJA_EN T ON E.dni = T.empleado AND T.proyecto = P.numero
+  	WHERE D.nombre = 'Investigación'	
+  	GROUP BY D.nombre
+  	HAVING COUNT(*) >= 1
+  	)
+ORDER BY nombre asc;
 ```
 
 Tabla resultado:
@@ -620,7 +644,22 @@ SELECT nombre, apellido1, sueldo FROM EMPLEADO;
 
 Solución:
 ```sql
+UPDATE EMPLEADO
+SET sueldo = sueldo + (sueldo * 0.20)
+WHERE (
+	SELECT SUM(T.horas)
+  	FROM TRABAJA_EN T 
+  	WHERE T.empleado = EMPLEADO.dni
+) > (
+	SELECT AVG(H.total_horas)
+  	FROM (
+	  SELECT SUM(T.horas) AS total_horas
+	  FROM TRABAJA_EN T
+	  GROUP BY T.empleado
+	) H
+);
 
+SELECT nombre, apellido1, sueldo FROM EMPLEADO;
 ```
 
 Tabla resultado:
@@ -751,7 +790,13 @@ Escribe una consulta que devuelva el `dni` de los empleados que no tienen ningú
 
 Solución:
 ```sql
-
+SELECT dni
+FROM EMPLEADO
+WHERE dni NOT IN (
+	SELECT empleado
+	FROM FAMILIAR
+	WHERE empleado IS NOT NULL)
+ORDER BY dni asc;
 ```
 
 Tabla resultado:
@@ -809,7 +854,16 @@ WHERE P.ubicacion = 'Madrid';
 
 Solución:
 ```sql
-
+-- Empleados que trabajan en proyectos ubicados en 'Madrid'
+SELECT DISTINCT
+  E.nombre,
+  E.apellido1
+FROM EMPLEADO E INNER JOIN (
+	SELECT T.empleado
+  	FROM PROYECTO P INNER JOIN TRABAJA_EN T 
+  	ON T.proyecto = P.numero AND P.ubicacion = 'Madrid'
+) ON E.dni = empleado  
+ORDER BY E.nombre;
 ```
 
 Tabla resultado:
