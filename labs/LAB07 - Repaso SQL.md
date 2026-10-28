@@ -26,7 +26,12 @@ Escribe una consulta que muestre el nombre, apellido1 y sueldo de los empleados 
 
 Solución:
 ```sql
-
+SELECT nombre,
+	apellido1,
+	sueldo
+FROM EMPLEADO
+WHERE (sueldo BETWEEN 25000 AND 40000) AND (nombre LIKE 'A%' OR nombre LIKE 'J%')
+ORDER BY sueldo desc, nombre asc;
 ```
 
 **Tabla resultado:**
@@ -52,7 +57,13 @@ Escribe una consulta que muestre, para cada departamento, el número de empleado
 
 Solución:
 ```sql
-
+SELECT dpto,
+	COUNT(*) AS num_empleados,
+	SUM(sueldo) AS sueldo_total
+FROM EMPLEADO
+GROUP BY dpto
+HAVING COUNT(*) > 1
+ORDER BY sueldo_total desc;
 ```
 
 **Tabla resultado:**
@@ -76,7 +87,15 @@ Escribe una consulta que muestre el nombre y apellido1 del empleado, el nombre d
 
 Solución:
 ```sql
-
+SELECT E.nombre AS nombre_empleado,
+	E.apellido1,
+	P.nombre AS nombre_proyecto,
+	D.nombre AS nombre_departamento
+FROM EMPLEADO E INNER JOIN TRABAJA_EN T ON E.dni = T.empleado
+	INNER JOIN PROYECTO P ON T.proyecto = P.numero 
+	INNER JOIN DEPARTAMENTO D ON P.dpto = D.numero
+WHERE E.apellido1 LIKE 'P%'
+ORDER BY E.nombre asc;
 ```
 
 **Tabla resultado:**
@@ -106,7 +125,15 @@ Ordena por número de empleados descendente.
 
 Solución:
 ```sql
-
+SELECT CASE
+			WHEN sueldo < 30000 THEN 'Junior'
+			WHEN sueldo BETWEEN 30000 AND 45000 THEN 'Senior'
+			WHEN sueldo > 45000 THEN 'Executive'
+		END AS categoria_salarial,
+		COUNT(*) AS num_empleados	
+FROM EMPLEADO
+GROUP BY categoria_salarial
+ORDER BY num_empleados desc;
 ```
 
 **Tabla resultado:**
@@ -136,7 +163,16 @@ Ordena por total de horas descendente y, luego, alfabéticamente por apellido y 
 
 Solución:
 ```sql
-
+WITH horas_empleado AS (
+	SELECT 	E.nombre,
+  			E.apellido1,
+	  		SUM(T.horas) as total_horas
+  	FROM EMPLEADO E INNER JOIN TRABAJA_EN T ON E.dni = T.empleado
+  	GROUP BY E.dni
+)
+SELECT * FROM horas_empleado
+WHERE total_horas > 30
+ORDER BY total_horas desc, apellido1 asc, nombre asc;
 ```
 
 **Tabla resultado:**
@@ -165,7 +201,16 @@ Escribe una consulta que muestre el nombre de los departamentos que tienen al me
 
 Solución:
 ```sql
-
+SELECT nombre AS nombre_departamento
+FROM DEPARTAMENTO D
+WHERE EXISTS (
+  SELECT 1
+  FROM EMPLEADO E INNER JOIN TRABAJA_EN T ON E.dni = T.empleado
+  WHERE D.numero = E.dpto
+  GROUP BY T.empleado
+  HAVING COUNT(T.proyecto) > 1
+)
+ORDER BY nombre_departamento;
 ```
 
 **Tabla resultado:**
