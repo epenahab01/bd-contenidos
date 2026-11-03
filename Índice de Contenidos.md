@@ -18,17 +18,17 @@
 - [LAB05 - JOIN](labs/LAB05%20-%20JOIN.md)
 - [LAB06 - Subconsultas](labs/LAB06%20-%20Subconsultas.md)
 - [LAB07 - Repaso SQL](labs/LAB07%20-%20Repaso%20SQL.md)
-- [LAB08 - Examen Repaso](labs/LAB08%20-%20Examen%20Repaso.md)
-- [LAB09 - BigER 1](labs/LAB09%20-%20BigER%201.md)
-- [LAB10 - BigER 2](labs/LAB10%20-%20BigER%202.md)
-- [LAB11 - BigER 3](labs/LAB11%20-%20BigER%203.md)
-- [LAB12 - BigER 4](labs/LAB12%20-%20BigER%204.md)
-- [LAB13 - BigER 5](labs/LAB13%20-%20BigER%205.md)
-- [LAB14 - Aplicaciones BD - JDBC](labs/LAB14%20-%20Aplicaciones%20BD%20-%20JDBC.md)
+- [LAB14 - Examen Repaso SQL](labs/LAB14%20-%20Examen%20Repaso%20SQL.md)
+- [LAB08 - BigER 1](labs/LAB08%20-%20BigER%201.md)
+- [LAB10 - BigER 3](labs/LAB10%20-%20BigER%203.md)
+- [LAB11 - BigER 4](labs/LAB11%20-%20BigER%204.md)
+- [LAB12 - BigER 5 B](labs/LAB12%20-%20BigER%205%20B.md)
+- [LAB12 - BigER 5 A](labs/LAB12%20-%20BigER%205%20A.md)
+- [LAB13 - Aplicaciones BD - JDBC](labs/LAB13%20-%20Aplicaciones%20BD%20-%20JDBC.md)
 
 ## Anexos laboratorio
 
-- [AL09.1 - Instalación y uso de BigER en VSCode](labs/anexos/AL09.1%20-%20Instalación%20y%20uso%20de%20BigER%20en%20VSCode.md)
+- [AL09.1 - Instalación y uso de BigER en VS Code](labs/anexos/AL09.1%20-%20Instalación%20y%20uso%20de%20BigER%20en%20VS%20Code.md)
 - [AL09.2 - Notación BigER](labs/anexos/AL09.2%20-%20Notación%20BigER.md)
 
 ## Criterios de evaluación
