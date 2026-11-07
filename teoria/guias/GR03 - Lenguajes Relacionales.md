@@ -16,20 +16,20 @@ Tres ideas clave:
 
 ### Mapa de operaciones
 
-| Grupo | Operación | Símbolo | En SQL (esencia) |
-|---|---|---|---|
-| **Unarias** | Selección | σ (sigma) | `WHERE` |
-| | Proyección | π (pi) | `SELECT DISTINCT` |
-| | Renombrado | ρ (rho) | `AS` / alias |
-| **Teoría de conjuntos** | Unión | ∪ | `UNION` |
-| | Intersección | ∩ | `INTERSECT` |
-| | Diferencia | − | `EXCEPT` |
-| | Producto cartesiano | × | `CROSS JOIN` |
-| **Binarias** | Concatenación (join) | ⋈ | `INNER JOIN` |
-| | Concatenación externa | ⟕ ⟖ ⟗ | `LEFT/RIGHT/FULL OUTER JOIN` |
-| | División | ÷ | (no directa; subconsultas) |
-| **Adicionales** | Agrupamiento | γ (gamma) | `GROUP BY` + agregadas |
-| | Ordenación | τ (tau) | `ORDER BY` |
+| Grupo                   | Operación             | Símbolo   | En SQL (esencia)             |
+| ----------------------- | --------------------- | --------- | ---------------------------- |
+| **Unarias**             | Selección             | σ (sigma) | `WHERE`                      |
+|                         | Proyección            | π (pi)    | `SELECT DISTINCT`            |
+|                         | Renombrado            | ρ (rho)   | `AS` / alias                 |
+| **Teoría de conjuntos** | Unión                 | ∪         | `UNION`                      |
+|                         | Intersección          | ∩         | `INTERSECT`                  |
+|                         | Diferencia            | −         | `EXCEPT`                     |
+|                         | Producto cartesiano   | ×         | `CROSS JOIN`                 |
+| **Binarias**            | Concatenación (join)  | ⋈         | `INNER JOIN`                 |
+|                         | Concatenación externa | ⟕ ⟖ ⟗     | `LEFT/RIGHT/FULL OUTER JOIN` |
+|                         | División              | ÷         | (no directa; subconsultas)   |
+| **Adicionales**         | Agrupamiento          | γ (gamma) | `GROUP BY` + agregadas       |
+|                         | Ordenación            | τ (tau)   | `ORDER BY`                   |
 
 ---
 
@@ -75,9 +75,9 @@ SELECT DISTINCT Apellido1, Nombre, Sueldo FROM Empleado;
 
 Cambia el nombre de la **relación**, de sus **atributos**, o de ambos.
 
-| Caso | Álgebra | RelaX | SQL |
-|---|---|---|---|
-| Relación | ρ_S(R) | `rho S (R)` | `FROM R S` |
+| Caso      | Álgebra        | RelaX                    | SQL                  |
+| --------- | -------------- | ------------------------ | -------------------- |
+| Relación  | ρ_S(R)         | `rho S (R)`              | `FROM R S`           |
 | Atributos | ρ_{b1,…,bn}(R) | `rho b1<-a1, b2<-a2 (R)` | `SELECT a1 AS b1, …` |
 
 Es imprescindible cuando combinamos **una relación consigo misma** (p. ej., empleados y sus supervisores) para distinguir las dos copias.
@@ -162,11 +162,11 @@ FROM Departamento D INNER JOIN Empleado E ON (D.DniDirector = E.Dni);
 
 **Variantes que debes distinguir**:
 
-| Variante | Condición | Particularidad |
-|---|---|---|
-| **Theta-join** | Cualquier expresión booleana (=, <, >, …) | Caso general |
-| **Equijoin** | Solo igualdades | El resultado repite columnas con valores idénticos |
-| **Natural join** (R ∗ S) | Igualdad implícita sobre los atributos con el **mismo nombre** | Elimina la columna duplicada del resultado |
+| Variante                 | Condición                                                      | Particularidad                                     |
+| ------------------------ | -------------------------------------------------------------- | -------------------------------------------------- |
+| **Theta-join**           | Cualquier expresión booleana (=, <, >, …)                      | Caso general                                       |
+| **Equijoin**             | Solo igualdades                                                | El resultado repite columnas con valores idénticos |
+| **Natural join** (R ∗ S) | Igualdad implícita sobre los atributos con el **mismo nombre** | Elimina la columna duplicada del resultado         |
 
 ```sql
 -- Natural join, dos formas equivalentes:
@@ -221,11 +221,11 @@ El álgebra básica no puede expresar cálculos matemáticos sobre colecciones d
 
 ### 5.1. Funciones de agregación
 
-| Función | Números | Cadenas | Fechas |
-|---|:---:|:---:|:---:|
-| COUNT(*) / COUNT(atr) | ✔ | ✔ | ✔ |
-| MIN / MAX | ✔ | ✔ | ✔ |
-| SUM / AVG | ✔ | ✘ | ✘ |
+| Función               | Números | Cadenas | Fechas |
+| --------------------- | :-----: | :-----: | :----: |
+| COUNT(*) / COUNT(atr) |    ✔    |    ✔    |   ✔    |
+| MIN / MAX             |    ✔    |    ✔    |   ✔    |
+| SUM / AVG             |    ✔    |    ✘    |   ✘    |
 
 > ⚠️ `COUNT(*)` cuenta **todas las tuplas**; `COUNT(atributo)` cuenta solo los valores **no NULL** de ese atributo. Otra pregunta clásica de examen.
 
@@ -295,16 +295,28 @@ donde D1 y D2 son **renombrados** (ρ) de Departamento — necesarios porque hac
 
 Antes del examen deberías poder responder sin dudar:
 
-- [ ] ¿Por qué se dice que el álgebra relacional es *cerrada* y qué permite eso?
-- [ ] ¿Qué diferencia hay entre σ (filas) y π (columnas)? ¿Cuál elimina duplicados y por qué?
-- [ ] ¿Por qué SQL trabaja con multiconjuntos y qué implica en `SELECT` sin `DISTINCT`?
-- [ ] ¿Qué exige la compatibilidad de tipos y qué operaciones la requieren?
-- [ ] ¿Por qué R − S ≠ S − R, mientras que ∪ e ∩ sí son conmutativas?
-- [ ] ¿Cómo se define un JOIN a partir de × y σ? ¿Qué distingue theta-join, equijoin y natural join?
-- [ ] ¿Cuándo necesitas un OUTER JOIN en lugar de un INNER JOIN? ¿Qué papel juegan los NULL?
-- [ ] ¿Qué tipo de consulta resuelve la división? (pista: "para **todos** los…")
-- [ ] ¿Qué diferencia hay entre COUNT(*) y COUNT(atributo)?
-- [ ] ¿Cómo se expresa una restricción de integridad referencial con π y ⊆ (o −)?
+1. ¿Por qué se dice que el álgebra relacional es *cerrada* y qué permite eso?
+
+El álgebra relacional es cerrada porque todas las operaciones que contiene devuelven una relación. Eso permite anidar operaciones y realizar operaciones más complejas.
+
+2. ¿Qué diferencia hay entre σ (filas) y π (columnas)? ¿Cuál elimina duplicados y por qué?
+
+3. ¿Por qué SQL trabaja con multiconjuntos y qué implica en `SELECT` sin `DISTINCT`?
+
+4. ¿Qué exige la compatibilidad de tipos y qué operaciones la requieren?
+
+ 5. ¿Por qué R − S ≠ S − R, mientras que ∪ e ∩ sí son conmutativas?
+
+6. ¿Cómo se define un JOIN a partir de × y σ? ¿Qué distingue theta-join, equijoin y natural join?
+
+7. ¿Cuándo necesitas un OUTER JOIN en lugar de un INNER JOIN? ¿Qué papel juegan los NULL?
+
+8. ¿Qué tipo de consulta resuelve la división? (pista: "para **todos** los…")
+
+9. ¿Qué diferencia hay entre COUNT(*) y COUNT(atributo)?
+
+10. ¿Cómo se expresa una restricción de integridad referencial con π y ⊆ (o −)?
+
 
 ## 🎯 Chuleta final: del enunciado a la operación
 
