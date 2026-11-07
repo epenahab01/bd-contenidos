@@ -21,14 +21,14 @@ Ten en cuenta desde el principio que existen **dos modelos**:
 
 Una **relación** se parece a una **tabla**: filas con datos y columnas con encabezados. Pero cada concepto informal tiene su nombre formal:
 
-| Informal (tabla)     | Formal (modelo relacional) |
-| -------------------- | -------------------------- |
-| Tabla                | **Relación**               |
-| Nombre de columna    | **Atributo**               |
-| Tipo de columna      | **Dominio**                |
-| Fila                 | **Tupla**                  |
-| Definición de tabla  | **Esquema de relación**    |
-| Datos de la tabla    | **Estado de la relación**  |
+| Informal (tabla)    | Formal (modelo relacional) |
+| ------------------- | -------------------------- |
+| Tabla               | **Relación**               |
+| Nombre de columna   | **Atributo**               |
+| Tipo de columna     | **Dominio**                |
+| Fila                | **Tupla**                  |
+| Definición de tabla | **Esquema de relación**    |
+| Datos de la tabla   | **Estado de la relación**  |
 
 > ⚠️ Que una relación *parezca* una tabla no significa que se almacene físicamente así. La implementación física es asunto del SGBD.
 
@@ -299,14 +299,47 @@ En la práctica, **ningún SGBDR comercial las cumple al 100%** (Oracle, MySQL, 
 ## ✅ Autoevaluación rápida
 
 1. ¿Cuál es la diferencia entre *esquema* y *estado* de una relación?
+
+La diferencia entre ambas es que el esquema de una relación representa el nombre de la relación y sus atributos, mientras que el estado de una relación está formado por el conjunto actual de tuplas, es decir, son los datos de una relación en un momento determinado. El estado de una relación cambia cada vez que modificamos los datos, pero el esquema permanece constante.
+
 2. ¿Por qué una relación no puede tener tuplas duplicadas?
+
+Porque una relación es un conjunto formado por tuplas en el modelo relacional, y al ser un conjunto, no puede tener elementos duplicados, en este caso, tuplas.
+
 3. En $COCHE$(estado, matricula, numSerie, marca, modelo, año), ¿por qué {numSerie, marca} es superclave pero no clave?
+
+{numSerie, marca} es superclave porque permite identificar unívocamente a una tupla de la relación, pero no es clave porque no es superclave mínima, esto es, podemos quitar algún atributo y que siga siendo superclave, en este caso, marca.
+
 4. ¿Puede un atributo de la clave primaria valer NULL? ¿Y una clave externa?
+
+Un atributo de la clave primaria no puede valer NULL porque entonces no podríamos identificar una tupla con nuestra PK y violaríamos la restricción de integridad de entidad. 
+
+Una clave externa puede ser NULL siempre que esté permitido en su definición (no aparezca NOT NULL) y no forme parte de la clave primaria(PK) de la relación referenciante. En caso contrario, debe contener un valor de clave primaria existente en la relación referenciada. Si se utiliza ON DELETE SET NULL, al borrar una tupla referenciada se establece NULL en la clave externa siempre que admita valores nulos.
+
 5. ¿Qué restricciones puede violar un INSERT? ¿Y un DELETE?
+
+Un INSERT puede violar todas las restricciones: la de dominio, la de clave, la de integridad referencial y la de integridad de entidad.
+
+Un DELETE puede violar la restricción de integridad referencial si se elimina una tupla cuya clave primaria (PK) está siendo referenciada por claves externas de otras tuplas.
+
 6. Si borramos un departamento referenciado por empleados, ¿qué ocurre con `ON DELETE SET NULL`? ¿Qué requisito debe cumplir la FK?
+
+En ese caso, el atributo de la clave externa de las tuplas referenciantes tendrá valor NULL siempre que en su definición no estuviera indicado lo contrario. El requisito que debe cumplir la FK es precisamente ese, que no tenga definida la restricción NOT NULL.
+
 7. ¿Por qué se desaconseja `ON UPDATE CASCADE` sobre claves primarias y cuál es la alternativa profesional?
+
+Se desaconseja porque es bastante costoso y además puede provocar muchos cambios en las relaciones, incluso efectos no deseados. La alternativa profesional es no modificar las claves primarias utilizando RESTRICT o NO ACTION y usar claves sustitutas que nunca cambien.
+
 8. ¿Qué es una clave sustituta (*surrogate key*) y qué ventaja tiene?
+
+Una clave sustituta (surrogate key) es una clave primaria que no tiene significado de negocio, como un número entero autoincremental. La ventaja que presenta es que nunca necesitan cambiar, de forma que evita modificar la clave primaria y las claves externas que la referencian.
+
 9. Cita dos restricciones *implícitas* del modelo relacional.
+
+Dos ejemplos de restricciones implícitas del modelo relacional son los valores atómicos en los atributos de las tuplas y que no se permiten tuplas duplicadas en una relación.
+
 10. ¿Qué dice la regla de la no subversión (regla 12 de Codd)?
+
+La regla de la no subversión dice que ningún lenguaje de bajo nivel puede saltarse las restricciones definidas a alto nivel.
 
 *(Pista: todas las respuestas están en esta guía. Si dudas en alguna, vuelve a la sección correspondiente de los apuntes completos.)*
