@@ -109,7 +109,7 @@ A $X$ se le llama **determinante**.
 
 ### 3.4. ¿Qué DF se pueden deducir mirando los datos?
 
-De una instancia concreta de la tabla **nunca se puede afirmar** que una DF existe (una tupla futura podría violarla). Lo que **sí** se puede afirmar con certeza es que **ciertas DF NO existen**, si hay tuplas que las violan.
+De una instancia concreta de la tabla **nunca se puede afirmar** que una DF existe (una tupla futura podría violarla). Lo que **sí** se puede afirmar con certeza es que **ciertas DF NO existen** si hay tuplas que las violan.
 
 **Ejemplo.** Relación $IMPARTIR$:
 

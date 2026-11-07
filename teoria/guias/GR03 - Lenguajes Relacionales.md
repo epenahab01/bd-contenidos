@@ -101,11 +101,11 @@ Los pasos intermedios hacen las consultas complejas mucho más legibles.
 
 ### 3.1. Unión, intersección y diferencia
 
-| Operación | Resultado de R op S | ¿Conmutativa? |
-|---|---|---|
-| **R ∪ S** | tuplas en R, en S o en ambas (sin duplicados) | Sí (y asociativa) |
-| **R ∩ S** | tuplas que están en **ambas** | Sí (y asociativa) |
-| **R − S** | tuplas en R que **no** están en S | **No** (R−S ≠ S−R) |
+| Operación | Resultado de R op S                           | ¿Conmutativa?      |
+| --------- | --------------------------------------------- | ------------------ |
+| **R ∪ S** | tuplas en R, en S o en ambas (sin duplicados) | Sí (y asociativa)  |
+| **R ∩ S** | tuplas que están en **ambas**                 | Sí (y asociativa)  |
+| **R − S** | tuplas en R que **no** están en S             | **No** (R−S ≠ S−R) |
 
 **Requisito**: R y S deben ser **compatibles en tipos**: mismo número de atributos y dominios compatibles atributo a atributo. El resultado toma los nombres de atributos de R (el primer operando).
 
@@ -297,37 +297,59 @@ Antes del examen deberías poder responder sin dudar:
 
 1. ¿Por qué se dice que el álgebra relacional es *cerrada* y qué permite eso?
 
-El álgebra relacional es cerrada porque todas las operaciones que contiene devuelven una relación. Eso permite anidar operaciones y realizar operaciones más complejas.
+El álgebra relacional es cerrada porque todas las operaciones que contiene devuelven una relación. Eso permite utilizar operaciones como operandos de otras y construir expresiones más complejas.
 
 2. ¿Qué diferencia hay entre σ (filas) y π (columnas)? ¿Cuál elimina duplicados y por qué?
 
+El operador selección (σ) devuelve una relación que contiene las tuplas que cumplan una condición determinada con todos sus atributos. En cambio, el operador proyección (π) devuelve una relación que contiene sólo los atributos especificados.
+
+El operador proyección (π) elimina duplicados porque al devolver sólo los valores de algunos de los atributos, estos valores pueden repetirse y como las relaciones son conjuntos se eliminan los duplicados.
+
 3. ¿Por qué SQL trabaja con multiconjuntos y qué implica en `SELECT` sin `DISTINCT`?
+
+SQL trabaja con multiconjuntos para no tener que comprobar continuamente si estamos respetando la unicidad de las tuplas, de manera que es mucho más eficiente. Por tanto, al hacer un SELECT sin DISTINCT podríamos llegar a tener tuplas duplicadas en la relación resultante.
 
 4. ¿Qué exige la compatibilidad de tipos y qué operaciones la requieren?
 
+La compatibilidad de tipos exige que las dos relaciones operandos tengan el mismo número de atributos y que los dominios de los atributos correspondientes sean compatibles en cuanto a tipos. La requieren las operaciones de conjuntos (unión ∪, intersección ∩, diferencia −).
+
  5. ¿Por qué R − S ≠ S − R, mientras que ∪ e ∩ sí son conmutativas?
+
+Porque R-S devuelve la relación con las tuplas que contiene R quitando las que también contiene S, mientras que S-R devuelve la relación con las tuplas que contiene S quitando las que también contiene R. Los operadores unión e intersección sí que son conmutativos porque el resultado es el mismo independientemente del orden de los operandos.
 
 6. ¿Cómo se define un JOIN a partir de × y σ? ¿Qué distingue theta-join, equijoin y natural join?
 
+Un JOIN podría expresarse como σc(R×S) sean R y S dos relaciones y c una condición cualquiera. 
+Un theta-join es un JOIN que utiliza una condición de unión general. Un equijoin es un caso particular de theta-join que se caracteriza porque su condición está formada únicamente por igualdades. Por otro lado, un natural join se caracteriza por establecer implícitamente igualdades entre atributos con el mismo nombre en ambas relaciones y por eliminar los atributos de unión redundantes del resultado.
+
 7. ¿Cuándo necesitas un OUTER JOIN en lugar de un INNER JOIN? ¿Qué papel juegan los NULL?
+
+Necesitamos un OUTER JOIN cuando queremos conservar todas las tuplas de una relación aunque no tengan una tupla coincidente en la otra relación. 
+Los NULL se utilizan para rellenar los atributos de la relación en la que no se ha encontrado una tupla coincidente. De esta forma, se evita perder información al conservar tuplas no relacionadas.
 
 8. ¿Qué tipo de consulta resuelve la división? (pista: "para **todos** los…")
 
+La división resuelve consultas que requieren encontrar las tuplas que están relacionadas con todas las tuplas de otra relación. Una tupla t aparecerá en el resultado si sus valores aparecen en R combinados con cada una de las tuplas de la relación S.
+
 9. ¿Qué diferencia hay entre COUNT(*) y COUNT(atributo)?
+
+La función de agregación COUNT(*) cuenta todas las tuplas de la relación, mientras que COUNT(atributo) cuenta sólo los valores no NULL de ese atributo. 
 
 10. ¿Cómo se expresa una restricción de integridad referencial con π y ⊆ (o −)?
 
+En palabras, todo atributo A de la relación R debe existir como valor del atributo B de la relación S. Con símbolos: πA(R) ⊆ πB(S)
+Esto se cumplirá si y sólo si πA(R) - πB(S) = ∅. 
 
 ## 🎯 Chuleta final: del enunciado a la operación
 
-| Si el enunciado dice… | Piensa en… |
-|---|---|
-| "los empleados que cumplen…" | σ (selección) |
-| "muestra solo el nombre y…" | π (proyección) |
-| "…o…" (unir resultados) | ∪ |
-| "…que NO…" | − (diferencia) |
-| "combinando datos de dos tablas relacionadas" | ⋈ (join) |
-| "todos los X, aunque no tengan Y" | outer join |
-| "…que participan en TODOS los…" | ÷ (división) |
-| "cuántos / media / total … por cada…" | γ (agrupamiento) |
-| "ordenados por…" | τ (ordenación) |
+| Si el enunciado dice…                         | Piensa en…       |
+| --------------------------------------------- | ---------------- |
+| "los empleados que cumplen…"                  | σ (selección)    |
+| "muestra solo el nombre y…"                   | π (proyección)   |
+| "…o…" (unir resultados)                       | ∪                |
+| "…que NO…"                                    | − (diferencia)   |
+| "combinando datos de dos tablas relacionadas" | ⋈ (join)         |
+| "todos los X, aunque no tengan Y"             | outer join       |
+| "…que participan en TODOS los…"               | ÷ (división)     |
+| "cuántos / media / total … por cada…"         | γ (agrupamiento) |
+| "ordenados por…"                              | τ (ordenación)   |
