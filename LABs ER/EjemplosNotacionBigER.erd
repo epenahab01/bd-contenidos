@@ -22,3 +22,13 @@ relationship matriculado_en {
 relationship es_mentor_de {
     Estudiante[0..1 | "Mentor"] -> Estudiante[0..N | "Mentorizado"]
 }
+
+weak entity Contacto_Emergencia {
+    nombre partial-key
+    telefono
+    parentesco
+}
+
+weak relationship tiene_contacto {
+    Contacto_Emergencia[1..N] -> Estudiante[1..1]
+}
